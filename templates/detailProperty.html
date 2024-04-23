@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+        <!-- Contact Templete File -->
+        <link rel="stylesheet" href="../static/contact.css">
+        <link rel="shortcut icon" href="../static/images/home_hand_3-1.svg" />
+        <!-- Render All Elements Normally -->
+        <link rel="stylesheet" href="../static/normalize.css" />
+        <!-- Font Awesome Library -->
+        <link rel="stylesheet" href="../static/all.min.css" />
+        <!-- Main Templete File -->
+        <link rel="stylesheet" href="../static/homlisti.css" />
+        <!-- About Templete File -->
+        <link rel="stylesheet" href="../static/about.css" />
+        <!-- Contact Templete File -->
+        <!-- <link rel="stylesheet" href="../static/contact.css"> -->
+        <!-- Animation Library -->
+        <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&family=Roboto:wght@300;400;500;700;900&family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+</head>
+<body>
+     <header>
+        <div class="sub-header">
+            <div class="container">
+                
+                    <a href="#" class="logo">
+                        <img src="/static/images/logo.svg" alt="" />
+                    </a>
+                <a href="../index.html" class="logo">
+                    <img src="../images/logo.svg" alt="" />
+                </a>
+                <nav>
+                    <input type="checkbox" id="bar" />
+                    <ul class="links">
+                        <!-- <li><a class="active" href="../index.html">Home</a></li> -->
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <!-- <li><a href="addProperty.html" style="">Add property</a></li> -->
+                    </ul>
+                </nav>
+               
+            </div>
+        </div>
+    </header>
+    <!-- End Sub-header -->
+    <!-- images -->
+    <div class="landing" >
+        <img class="sh1" src="static/images/shape-home-5-4.svg" alt="" />
+        <img class="sh2" src="static/images/shape-home-5-5.svg" alt="" data-aos="fade-right" data-aos-delay="50" data-aos-duration="1500" />
+        <img class="sh3" src="static/images/shape-home-5-2.svg" alt="" />
+        <img class="sh4" src="static/images/home-5-main-banner-shaper-10.svg" alt="" />
+        <img class="sh5" src="static/images/home-5-main-banner-shaper-19-22.svg" alt="" />
+        <img class="sh6" src="static/images/home-5-main-banner.png" alt="" data-aos="fade-left" data-aos-delay="50" data-aos-duration="1500" />
+        <div class="contact" >
+            <div class="container">
+                <div class="right-data">
+                    
+                    {% if house %}
+    <div class="input-for">
+        <p>User Name: {{ house.user_name }}</p>
+        <p>User Phone: {{ house.user_phone }}</p>
+        <p>User Email: {{ house.user_email }}</p>
+        <p>Description: {{ house.description }}</p>
+        <p>House Price: {{ house.house_price }}</p>
+        <p>House Street: {{ house.house_street }}</p>
+        <p>Kitchen Number: {{ house.kitchen_number }}</p>
+        <p>Location: {{ house.location }}</p>
+        <p>Property Subtype: {{ house.property_subtype }}</p>
+        <p>Property Type: {{ house.property_type }}</p>
+        <p>Timestamp: {{ house.timestamp }}</p>
+        <p>Type of Property: {{ house.type_of_property }}</p>
+        <h4>House Images:</h4>
+        <div class="additional-images" style="height: 200px;">
+            {% for image_url in house.house_images.values() %}
+                <img src="{{ image_url }}" alt="House Image">
+            {% endfor %}
+        </div>
+    </div>
+{% else %}
+    <p>No house details found.</p>
+{% endif %}
+
+                </div>
+            </div>
+        </div>
+        </div>
+    <!-- end of images -->
+    
+</body>
+</html>
