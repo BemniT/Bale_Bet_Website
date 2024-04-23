@@ -30,7 +30,7 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.',1)[1].lower() in ALLOWED_IMAGE
 
 
-@app.route('/index.html')
+@app.route('/')
 def index():
     houses_data = real_db.child('House').get().val()
     houses = []
