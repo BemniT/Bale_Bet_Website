@@ -1,0 +1,13 @@
+.additional-images {
+    display: flex; /* Make the images display inline */
+    gap: 10px; /* Add some spacing between thshe images */
+  }
+  
+  .additional-images img {
+    border-radius: 8px; /* Apply smooth corners to the images */
+  }
+    .contact .additional-images {
+      display: flex; /* Make the images display inline */
+      gap: 10px; /* Add some spacing between the images */
+    }
+    

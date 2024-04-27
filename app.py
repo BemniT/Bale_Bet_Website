@@ -3,6 +3,8 @@ import pyrebase
 import uuid, os, time
 from werkzeug.utils import secure_filename
 from datetime import datetime
+import firebase_admin
+from firebase_admin import credentials, db
 
 config = {
   "apiKey": "AIzaSyAk0fgnZDbOxpCxhoGbKQ83aUJ2D-bj-Mg",
@@ -16,6 +18,10 @@ config = {
 }
 
 firebase = pyrebase.initialize_app(config)
+
+cred = credentials.Certificate("bale-house-rental-firebase-adminsdk-b9crh-7da5e2aded.json")
+firebase_admin.initialize_app(cred, {"databaseURL":"https://bale-house-rental-default-rtdb.firebaseio.com"})
+
 real_db = firebase.database()
 fire_storage = firebase.storage()
 app = Flask(__name__)
@@ -73,8 +79,8 @@ def register():
                "address":address,
                "password":password
             }
-            
-             real_db.child('users').child(phone_number).set(developer_data)
+             email_key = email.replace('.','_dot_')
+             real_db.child('Users').child(phone_number).set(developer_data)
              return redirect(url_for('login'))
         else:
             return redirect(url_for('register'))
@@ -200,7 +206,7 @@ def addProperty():
 #============================================== end of add property ==================================================
 
 # ============================================= fetching houses from the waiting node in the admin page =============================
-@app.route('/admin.html')
+@app.route('/modals.html')
 def admin():
       response = real_db.child('Waiting').get()
 
@@ -212,7 +218,7 @@ def admin():
                         house_data['additional_images'] = list(house_data.get('house_images', {}).values())
                         houses[house_id] = house_data
 
-      return render_template('admin.html', houses=houses)
+      return render_template('modals.html', houses=houses)
 # ============================================= end of fetching houses from the waiting node in the admin page =============================
 
 # ============================================= Approval logic ===============================================================
@@ -240,7 +246,7 @@ def adminLogin():
                     session['admin_name'] = admin.get('name')
                     session['admin_phone'] = admin.get('phone')
                     # session['user_email'] = admin.get('email')
-                    return redirect(url_for('admin'))
+                    return redirect(url_for('DashBoard'))
                 else:
                     return 'Incorrect password for admin'
         else:
@@ -283,8 +289,86 @@ def detailProperty():
         house_data = response.val()
         if house_data:
              return render_template('detailProperty.html', house=house_data)
-    return "House details not found", 404
+    return redirect(url_for('error-404.html'))
         
+
+@app.route('/DashBoard.html', methods=['GET','POST'])
+def DashBoard():
+    
+     ref = db.reference('/')
+
+     users_snapshot = ref.child('Users').get()  
+     houses_snapshot = ref.child('House').get()  
+     pending_houses_snapshot = ref.child('Waiting').get()
+
+
+     user_num  = len(users_snapshot.keys()) if users_snapshot else 0
+     house_num = len(houses_snapshot.keys()) if houses_snapshot else 0
+     waiting  = len(pending_houses_snapshot.keys()) if pending_houses_snapshot else 0
+
+     if request.method == 'POST':
+          phone_number = request.form.get("phone_number",'')
+          users = real_db.child("Users").order_by_child("phone_number").equal_to(phone_number).get().val()
+          userList = []
+          if users:
+               
+               for user_id,  user_info in users.items():
+                    client_name = user_info.get("name","")
+                    user_email = user_info.get("email","")
+                    user_phone = user_info.get("phone_number","")
+                    user_address = user_info.get("address","")
+
+                    userList.append({
+                        "client_name" : client_name,
+                        "user_email" : user_email,
+                        "user_phone": user_phone,
+                        "user_address": user_address
+                    })
+          return render_template('DashBoard.html', users = userList, user_num = user_num, house_num = house_num, waiting = waiting)
+
+
+     users = real_db.child('Users').get().val()
+
+     user_list = []
+
+     for user_id, user_data  in users.items():
+          client_name = user_data.get("name","")
+          user_email = user_data.get("email","")
+          user_phone = user_data.get("phone_number","")
+          user_address = user_data.get("address","")
+
+          user_list.append({
+               "client_name" : client_name,
+               "user_email" : user_email,
+               "user_phone": user_phone,
+               "user_address": user_address
+          })
+
+     return render_template('DashBoard.html', user_num = user_num, house_num = house_num, waiting = waiting, users= user_list)
+
+
+@app.route('/modals.html', methods=['GET', 'POST'])
+def modals():
+    if request.method == 'POST':
+          phone_number = request.form.get("phone_number",'')
+          users = real_db.child("Users").order_by_child("phone_number").equal_to(phone_number).get().val()
+          userList = []
+          if users:
+               
+               for user_id,  user_info in users.items():
+                    client_name = user_info.get("name","")
+                    user_email = user_info.get("email","")
+                    user_phone = user_info.get("phone_number","")
+                    user_address = user_info.get("address","")
+
+                    userList.append({
+                        "client_name" : client_name,
+                        "user_email" : user_email,
+                        "user_phone": user_phone,
+                        "user_address": user_address
+                    })
+          return render_template('DashBoard.html', users = userList)
+    render_template
 
 if __name__== '__main__':
     app.run(debug=True)
