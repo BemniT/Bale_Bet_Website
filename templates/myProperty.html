@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="shortcut icon" href="../static/images/home_hand_3-1.svg" />
+    <!-- Render All Elements Normally -->
+    <link rel="stylesheet" href="../static/normalize.css" />
+   <!-- Font Awesome Library -->
+   <link rel="stylesheet" href="../static/all.min.css" />
+   <!-- Main Templete File -->
+   <link rel="stylesheet" href="../static/homlisti.css" />
+   <!-- About Templete File -->
+   <link rel="stylesheet" href="../static/about.css" />
+   <!-- Property Grid Templete File -->
+   <link rel="stylesheet" href="../static/property grid.css" />
+   <!-- Single Property Templete File -->
+   <link rel="stylesheet" href="../static/single-property.css" />
+   <!-- Pricing Templete File -->
+   <link rel="stylesheet" href="../static/pricing.css">
+   <!-- Blog Templete File -->
+   <link rel="stylesheet" href="../static/blog.css">
+   <!-- Contact Templete File -->
+   <link rel="stylesheet" href="../static/contact.css">
+   <!-- Animation Library -->
+   <!-- <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" /> -->
+   <!-- Google Fonts -->
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&family=Roboto:wght@300;400;500;700;900&family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+</head>
+<body>
+     <!-- Start of header -->
+     <div class="main-header">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="/static/images/logo.svg" alt="" />
+            </a>
+            <nav>
+                <input type="checkbox" id="bar" />
+                <ul class="links">
+                    <!-- <li><a class="active" href="index.html">Home</a></li> -->
+                    <li><a href="myPending.html">Pending</a></li>
+          
+                    
+                    <!-- <li><a href="html/contact.html" style="">Contact</a></li> -->
+                    <li><a href="myProperty.html" >My property</a></li>
+                </ul>
+            </nav>
+            <div class="header-btn">
+                <div class="prop-btn">
+                    <div class="icon">
+                        <i class="fa-solid fa-circle-plus"></i>
+                    </div>
+                    <div class="text">
+                        <a href="addProperty.html">Add Property</a>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <!-- Start Features -->
+    <div class="start-features">
+        <div class="main-heading">
+            <span>My properties</span>
+            <h3>Properties</h3>
+            <h2>My Featured Properties</h2>
+        </div>
+        <div class="container">
+            {% for house in myHouse %}
+            <div class="card" data-aos="fade-up" data-aos-delay="50" data-aos-duration="1000">
+                <div class="image-box one">
+                    <div class="overlay">
+                    {% for image_url in house.image_urls %}
+                    <img src="{{ image_url }}" alt="House Image">
+                    {% endfor %}</div>
+                    <span class="rent">{{ house.rent }}</span>
+                    <i class="fa-solid fa-angle-left arrows"></i>
+                    <i class="fa-solid fa-angle-right arrows"></i>
+                    <p class="price">ETB {{ house.price }} <span>/yr</span></p>
+                    <div class="fav-icons">
+                        <a href="#"><i class="fa-regular fa-heart"></i></a>
+                        <a href="#"><i class="fa-solid fa-arrow-right-arrow-left"></i></a>
+                    </div>
+                </div>
+                <div class="info">
+                    <a href="detailProperty.html?house_id={{ house.id }}">{{ house.owner }}</a>
+                    <h2>For {{ house.propertyType }}</h2>
+                    <div class="address">
+                        <span><i class="fa-solid fa-location-dot"></i>{{ house.location }}</span>
+                    </div>
+                    <div class="room">
+                        <span><i class="fa-solid fa-bed"></i>Beds {{ house.beds }}</span>
+                        <span><i class="fa-solid fa-shower"></i>Baths {{ house.baths }}</span>
+                        <span><i class="fa-solid fa-expand"></i>{{ house.area }}sqft</span>
+                    </div>
+                    
+                       <a href="updateProperty.html?house_id={{ house.id }}"> <input type="submit" value="Update" style=" background-color: #00c194;
+                        color: white;
+                        font-family: 'Ubuntu', sans-serif;
+                        font-weight: 500;
+                        font-size: 14px;
+                        padding: 5px 12px;
+                        border-radius: 5px;
+                        margin-top: 20px;
+                        position: relative;"></a>
+                
+                  
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+    <!-- End Features -->
+</body>
+</html>

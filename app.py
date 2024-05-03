@@ -255,6 +255,8 @@ def adminLogin():
     
     return render_template('adminLogin.html')
 
+# ========================================= ALL PROPERTY ========================================================
+
 @app.route('/allProperties.html', methods=['GET','POST'])
 def allProperties():
      houses_data = real_db.child('House').get().val()
@@ -262,10 +264,10 @@ def allProperties():
      if houses_data:
          for house_id, house_data in houses_data.items():
                 image_urls = [house_data['house_images'].get(f'image_{i}', '') for i in range(1, 4)]
-                # Append each house data to the list
+               
                 houses.append({
                     'id': house_id,
-                    'rent': 'For Rent',  # Assuming all houses are for rent
+                    'rent': 'For Rent',  
                     'price': house_data.get('house_price', ''),
                     'propertyType': house_data.get('property_type', ''),
                     'owner':house_data.get('user_name',''),
@@ -276,8 +278,162 @@ def allProperties():
                     'image_urls': image_urls
                 })
      return render_template('allProperties.html', houses=houses)
+
+
+ #  =========================================== My property =======================================
+
+@app.route('/myProperty.html', methods=['GET','POST'])
+def myProperty():
+     
+     user_phone = session.get('user_phone')
+     myHouse = []
+     if user_phone is None:
+          return redirect(url_for('login'))
+     my_house  = real_db.child('House').order_by_child('user_phone').equal_to(user_phone).get().val()
+        
+     if my_house:
+            for house_id, house_data in my_house.items():
+                    image_urls = [house_data['house_images'].get(f'image_{i}', '') for i in range(1, 4)]
+                    myHouse.append({
+                        'id': house_id,
+                        'rent': 'For Rent',  
+                        'price': house_data.get('house_price', ''),
+                        'propertyType': house_data.get('property_type', ''),
+                        'owner':house_data.get('user_name',''),
+                        'location': house_data.get('house_street', ''),
+                        'beds': house_data.get('bed_number', ''),
+                        'baths': house_data.get('toilet_number', ''),
+                        'area': house_data.get('square_area', ''),
+                        'image_urls': image_urls
+                    })
+      
+   
+     return render_template('myProperty.html', myHouse=myHouse)
+
+
+# ==================================== My pendign house ==================================================
+@app.route('/myPending.html', methods=['GET','POST'])
+def myPending():
+     
+     user_phone = session.get('user_phone')
+     myPending = []
+     if user_phone is None:
+          return redirect(url_for('login'))
+     my_house  = real_db.child('Waiting').order_by_child('user_phone').equal_to(user_phone).get().val()
+        
+     if my_house:
+            for house_id, house_data in my_house.items():
+                    image_urls = [house_data['house_images'].get(f'image_{i}', '') for i in range(1, 4)]
+                    myPending.append({
+                        'id': house_id,
+                        'rent': 'For Rent',  
+                        'price': house_data.get('house_price', ''),
+                        'propertyType': house_data.get('property_type', ''),
+                        'owner':house_data.get('user_name',''),
+                        'location': house_data.get('house_street', ''),
+                        'beds': house_data.get('bed_number', ''),
+                        'baths': house_data.get('toilet_number', ''),
+                        'area': house_data.get('square_area', ''),
+                        'image_urls': image_urls
+                    })
+      
+   
+     return render_template('myPending.html', myPending=myPending)
  
           
+# ===================================== Update property ===================================================
+@app.route('/update-house', methods=['GET','POST'])
+def update_house():
+     if request.method == 'POST':
+        house_id =  request.form['house_id']
+        house_data = real_db.child('House').child(house_id).get().val()
+        return render_template('updateProperty.html', house_data = house_data)
+
+
+@app.route("/updateProperty.html", methods=['GET', 'POST'])
+def updateProperty():
+    house_id = request.args.get('house_id')
+    house_id = house_id.split('=')[-1]
+    print(house_id)
+    house_data = real_db.child('House').child(house_id).get().val()
+    if request.method == 'POST':
+       
+       
+
+
+        if house_id:
+            location = request.form['location']
+            price = request.form['price']
+            house_street  = request.form.get('house_street')
+            area = request.form['area']
+            description = request.form['description']
+            property_type = request.form.get('property_type')
+            type_of_property = request.form.get('type_of_property')
+
+            
+            timestamp = datetime.now().strftime("%m-%d-%y %H:%M:%S")
+
+            if property_type == 'living':
+                  bed_number = request.form.get('bed_number')
+                  kitchen_number = request.form.get('kitchen_number')
+                  property_subtype = request.form.get('property_subtype')
+                  real_db.child('House').child(house_id).update({
+                    "location": location,
+                    "house_street":house_street,
+                    "house_price":price,
+                    "area":area,
+                    "property_type": property_type,
+                    "description":description,
+                    "timestamp":timestamp,
+                    "house_id":house_id,
+                    "bed_number": bed_number,
+                    "kitchen_number":kitchen_number,
+                    "property_subtype": property_subtype,
+                    "type_of_property": type_of_property
+                 }) 
+            elif property_type == 'business' or property_type == 'office':
+                 floor_number = request.form.get('floor_number')
+                 building_name = request.form.get('building_name')  
+                 real_db.child('House').child(house_id).update({
+                        "floor_number": floor_number,
+                        "building_name":building_name,
+                        "location": location,
+                        "house_street":house_street,
+                        "house_price":price,
+                        "area":area,
+                        "property_type": property_type,
+                        "description":description,
+                        "timestamp":timestamp,
+                        "house_id":house_id,
+                        "floor_number":floor_number,
+                        "building_name": building_name,
+                       "type_of_property": type_of_property
+                 })          
+           
+
+            house_image = request.files.getlist('house_image')
+            for idx, image in enumerate(house_image):
+                if allowed_file(image.filename):
+                    image_filename = secure_filename(image.filename)
+                    image_path = os.path.join(app.config['UPLOAD_FOLDER'], f"image_{idx+1}_{house_id}.jpg")
+                    if not os.path.exists(app.config['UPLOAD_FOLDER']):
+                        os.makedirs(app.config['UPLOAD_FOLDER'])
+                    image.save(image_path)
+
+                    image_storage_path  = f"{house_id}/house_Images/{image_filename}"
+                    fire_storage.child(image_storage_path).put(image_path)
+                    image_url = fire_storage.child(image_storage_path).get_url(None)
+
+
+                    real_db.child("House").child(house_id).child("house_images").child(f"image_{idx+1}").update(image_url)
+                    time.sleep(1)
+                    os.remove(image_path)
+    
+       
+    return render_template('updateProperty.html', house_data = house_data)
+
+
+
 #====================================== detail property =================================================
 
 
@@ -347,28 +503,9 @@ def DashBoard():
      return render_template('DashBoard.html', user_num = user_num, house_num = house_num, waiting = waiting, users= user_list)
 
 
-@app.route('/modals.html', methods=['GET', 'POST'])
-def modals():
-    if request.method == 'POST':
-          phone_number = request.form.get("phone_number",'')
-          users = real_db.child("Users").order_by_child("phone_number").equal_to(phone_number).get().val()
-          userList = []
-          if users:
-               
-               for user_id,  user_info in users.items():
-                    client_name = user_info.get("name","")
-                    user_email = user_info.get("email","")
-                    user_phone = user_info.get("phone_number","")
-                    user_address = user_info.get("address","")
-
-                    userList.append({
-                        "client_name" : client_name,
-                        "user_email" : user_email,
-                        "user_phone": user_phone,
-                        "user_address": user_address
-                    })
-          return render_template('DashBoard.html', users = userList)
-    render_template
+@app.route('/houses.html')
+def houses():
+     return render_template('houses.html')
 
 if __name__== '__main__':
     app.run(debug=True)

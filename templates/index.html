@@ -45,23 +45,9 @@
                 <ul class="links">
                     <li><a class="active" href="index.html">Home</a></li>
                     <li><a href="html/about.html">About</a></li>
-                    <li>
-                        <!-- <a href="html/property grid.html">Property<i class="fa-solid fa-angle-down"></i
-              ></a>
-                        Start Megamenu
-                        <div class="mega-menu">
-                            <ul class="sub">
-                                <li><a href="html/property grid.html">Properties grid</a></li>
-                                <li>
-                                    <a href="html/single-property.html">Single Property grid</a>
-                                </li>
-                            </ul>
-                        </div>
-                        End Megamenu
-                    </li>
-                    <li><a href="html/pricing.html">Pricing</a></li> -->
-                    <li><a href="html/blog.html">Blog</a></li>
                     <li><a href="html/contact.html">Contact</a></li>
+                    <li><a href="myProperty.html">My property</a></li>
+                    
                 </ul>
             </nav>
             <div class="header-btn">
@@ -128,25 +114,29 @@
                     {% for image_url in house.image_urls %}
                     <img src="{{ image_url }}" alt="House Image">
                     {% endfor %}</div></a>
-                    <span class="rent">For {{ house.rent }}</span>
-                    <i class="fa-solid fa-angle-left arrows"></i>
-                    <i class="fa-solid fa-angle-right arrows"></i>
+                    <span class="rent">{{ house.rent }}</span>
+                    <!-- <i class="fa-solid fa-angle-left arrows"></i>
+                    <i class="fa-solid fa-angle-right arrows"></i> -->
                     <p class="price">ETB {{ house.price }} <span>/yr</span></p>
                     <div class="fav-icons">
-                        <a href="#"><i class="fa-regular fa-heart"></i></a>
-                        <a href="#"><i class="fa-solid fa-arrow-right-arrow-left"></i></a>
+                        <!-- <a href="#"><i class="fa-regular fa-heart"></i></a>
+                        <a href="#"><i class="fa-solid fa-arrow-right-arrow-left"></i></a> -->
                     </div>
                 </div>
                 <div class="info">
                     <a href="#">{{ house.owner }}</a>
                     <h2>For {{ house.propertyType }}</h2>
                     <div class="address">
-                        <span><i class="fa-solid fa-location-dot"></i>{{ house.location }} street</span>
+                        <span>{{ house.location }} street</span>
                     </div>
                     <div class="room">
-                        <span><i class="fa-solid fa-bed"></i>Beds {{ house.beds }}</span>
-                        <span><i class="fa-solid fa-shower"></i>Baths {{ house.baths }}</span>
-                        <span><i class="fa-solid fa-expand"></i>{{ house.area }}sqft</span>
+                        <span>Beds {{ house.beds }}</span>
+                        <span></span>       
+                        <span></span>  
+                        | <span></i>Baths {{ house.baths }}</span>
+                        <span></span>  
+                        <span></span>    
+                        | <span></i>{{ house.area }} sqft</span>
                     </div>
                 </div>
             </div>
@@ -211,271 +201,7 @@
     <!-- End About Us -->
 
     <!-- Start Property Type -->
-    <!-- <div class="property-type">
-        <div class="container">
-            <div class="heading">
-                <span>property type</span>
-                <h3>Categories</h3>
-                <h2>Let's Explore by Property Type</h2>
-            </div>
-            <div class="category">
-                <div class="box" data-aos="fade-up" data-aos-delay="50" data-aos-duration="1500">
-                    <div class="image">
-                        <img src="images/p-cat-1.svg" alt="" />
-                    </div>
-                    <a href="#">Apartments</a>
-                    <span>3 Listings</span>
-                </div>
-                <div class="box" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1600">
-                    <div class="image">
-                        <img src="images/p-cat-2.svg" alt="" />
-                    </div>
-                    <a href="#">Villa</a>
-                    <span>3 Listings</span>
-                </div>
-                <div class="box" data-aos="fade-up" data-aos-delay="150" data-aos-duration="1700">
-                    <div class="image">
-                        <img src="images/p-cat-3.svg" alt="" />
-                    </div>
-                    <a href="#">Commercial</a>
-                    <span>2 Listings</span>
-                </div>
-                <div class="box" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1800">
-                    <div class="image">
-                        <img src="images/p-cat-4.svg" alt="" />
-                    </div>
-                    <a href="#">Office</a>
-                    <span>3 Listings</span>
-                </div>
-                <div class="box" data-aos="fade-up" data-aos-delay="250" data-aos-duration="1900">
-                    <div class="image">
-                        <img src="images/p-cat-5.svg" alt="" />
-                    </div>
-                    <a href="#">Restaurant</a>
-                    <span>2 Listings</span>
-                </div>
-            </div>
-        </div>
-    </div> -->
-    <!-- End Property Type -->
-
-    <!-- Start Location -->
-    <!-- <div class="location">
-        <div class="main-heading">
-            <span>top areas</span>
-            <h3>Location</h3>
-            <h2>Find Your Neighborhood</h2>
-        </div>
-        <div class="container">
-            <div class="areas first">
-                <div class="box" data-aos="zoom-in" data-aos-delay="50" data-aos-duration="1500">
-                    <img src="images/home5-location-1.png" alt="" />
-                    <div class="content">
-                        <a href="#">California</a>
-                        <div class="loc-btn">
-                            <span>01 Properties</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="box" data-aos="zoom-in" data-aos-delay="50" data-aos-duration="1500">
-                    <img src="images/home5-location-2.png" alt="" />
-                    <div class="content">
-                        <a href="#">Louisiana</a>
-                        <div class="loc-btn">
-                            <span>02 Properties</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="box" data-aos="zoom-in" data-aos-delay="50" data-aos-duration="1500">
-                    <img src="images/home5-location-3.png" alt="" />
-                    <div class="content">
-                        <a href="#">Kansas</a>
-                        <div class="loc-btn">
-                            <span>03 Properties</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="areas second">
-                <div class="box four" data-aos="zoom-in" data-aos-delay="50" data-aos-duration="1500">
-                    <img src="images/home5-location-4.png" alt="" />
-                    <div class="content">
-                        <a href="#">Abilene</a>
-                        <div class="loc-btn">
-                            <span>04 Properties</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="box five" data-aos="zoom-in" data-aos-delay="50" data-aos-duration="1500">
-                    <img src="images/home5-location-5.png" alt="" />
-                    <div class="content">
-                        <a href="#">New York</a>
-                        <div class="loc-btn">
-                            <span>05 Properties</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-    <!-- End location -->
-
-    <!-- Start Video -->
-    <!-- <div class="video">
-        <div class="overlay"></div>
-        <div class="container" data-aos="fade-up" data-aos-delay="50" data-aos-duration="1500">
-            <div class="tour-card">
-                <span class="pin">let's take a tour</span>
-                <h2>
-                    Search Property Smarter,<br /> Quicker & Anywhere
-                </h2>
-                <div class="video-inner">
-                    <div class="icon-right">
-                        <a href="https://www.youtube.com/watch?v=XHOmBV4js_E" class="popup" target="blank">
-                            <i class="fa-solid fa-play"></i>
-                            <span class="play"></span>
-                        </a>
-                    </div>
-                    <div class="icon-left">
-                        <a href="https://www.youtube.com/watch?v=XHOmBV4js_E" class="link" target="blank">Play Video</a
-            >
-          </div>
-        </div>
-      </div>
-      <div class="text">
-        <h3>Property For All</h3>
-      </div>
-    </div>
-  </div> -->
-  <!-- End Video -->
-
-  <!-- Start Agents -->
-  <!-- <div class="agents">
-    <div class="main-heading">
-      <span>expertise is here</span>
-      <h3>Our Agents</h3>
-      <h2>Our Exclusive Agents</h2>
-    </div>
-    <div class="container">
-      <div class="agent-card" data-aos="zoom-in" data-aos-delay="50" data-aos-duration="1500">
-        <ul class="icons">
-          <li>
-            <a class="share" href="#"
-              ><i class="fa-solid fa-share-nodes"></i
-            ></a>
-                        <ul class="social-icons">
-                            <li>
-                                <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa-brands fa-twitter"></i></a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa-brands fa-youtube"></i></a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa-brands fa-pinterest-p"></i></a>
-                            </li>
-                        </ul>
-                        </li>
-                        </ul>
-                        <div class="box">
-                            <div class="images">
-                                <img src="images/rosy_janner.jpg" alt="" />
-                            </div>
-                            <div class="info">
-                                <h2>Rosy Janner</h2>
-                                <h3>Sunshine</h3>
-                                <span class="count">2 Listings</span>
-                                <div class="support">
-                                    <i class="fa-solid fa-phone"></i>Call: <span> +4420376980</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="agent-card" data-aos="zoom-in" data-aos-delay="50" data-aos-duration="1500">
-                        <ul class="icons">
-                            <li>
-                                <a class="share" href="#"><i class="fa-solid fa-share-nodes"></i
-            ></a>
-                                <div class="social-icons">
-                                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-                                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
-                                    <a href="#"><i class="fa-brands fa-youtube"></i></a>
-                                    <a href="#"><i class="fa-brands fa-pinterest-p"></i></a>
-                                </div>
-                            </li>
-                        </ul>
-                        <div class="box">
-                            <div class="images">
-                                <img src="images/david_lee.jpg" alt="" />
-                            </div>
-                            <div class="info">
-                                <h2>David Lee</h2>
-                                <h3>Sunshine</h3>
-                                <span class="count">4 Listings</span>
-                                <div class="support">
-                                    <i class="fa-solid fa-phone"></i>Call: <span> +1821371286</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="agent-card" data-aos="zoom-in" data-aos-delay="50" data-aos-duration="1500">
-                        <ul class="icons">
-                            <li>
-                                <a class="share" href="#"><i class="fa-solid fa-share-nodes"></i
-            ></a>
-                                <div class="social-icons">
-                                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-                                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
-                                    <a href="#"><i class="fa-brands fa-youtube"></i></a>
-                                    <a href="#"><i class="fa-brands fa-pinterest-p"></i></a>
-                                </div>
-                            </li>
-                        </ul>
-                        <div class="box">
-                            <div class="images">
-                                <img src="images/mike_hussy-1.jpg" alt="" />
-                            </div>
-                            <div class="info">
-                                <h2>Mike Hussy</h2>
-                                <h3>Eco Builders</h3>
-                                <span class="count">1 Listings</span>
-                                <div class="support">
-                                    <i class="fa-solid fa-phone"></i>Call: <span> +4420376980</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="agent-card" data-aos="zoom-in" data-aos-delay="50" data-aos-duration="1500">
-                        <ul class="icons">
-                            <li>
-                                <a class="share" href="#"><i class="fa-solid fa-share-nodes"></i
-            ></a>
-                                <div class="social-icons">
-                                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-                                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
-                                    <a href="#"><i class="fa-brands fa-youtube"></i></a>
-                                    <a href="#"><i class="fa-brands fa-pinterest-p"></i></a>
-                                </div>
-                            </li>
-                        </ul>
-                        <div class="box">
-                            <div class="images">
-                                <img src="images/tom_steven.jpg" alt="" />
-                            </div>
-                            <div class="info">
-                                <h2>Tom Steven</h2>
-                                <h3>Sweet Home</h3>
-                                <span class="count">5 Listings</span>
-                                <div class="support">
-                                    <i class="fa-solid fa-phone"></i>Call: <span> +1821371286</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
+  
             <!-- End Agents -->
 
             <!-- Start Services -->
@@ -520,25 +246,12 @@
             </div>
             <!-- End Services -->
 
-            <!-- Start Testimonials -->
-            <div class="testimonials">
-                <div class="container" data-aos="fade-up" data-aos-delay="50" data-aos-duration="1500">
-                    <i class="fa-solid fa-angle-left arrow"></i>
-                    <i class="fa-solid fa-angle-right arrow"></i>
-                    <img src="images/home5-team-2.png" alt="" />
-                    <h3>Maria Zokatti</h3>
-                    <span>SEO Marketing</span>
-                    <q>when an unknown printer took a galley of type and scrambled it to
-        make a type specimen bookhas survived not only five centuries, but
-        also the leap into electronic type setting emaining essentially
-        unchanged follower.</q
-      >
-    </div>
+          
   </div>
   <!-- End Testimonials -->
 
   <!-- Start Clients -->
-  <div class="clients">
+  <!-- <div class="clients">
     <div class="container">
       <img src="images/client-logo-1.svg" alt="" data-aos="zoom-in" data-aos-delay="50" data-aos-duration="1500"/>
       <img src="images/client-logo-3.svg" alt="" data-aos="zoom-in" data-aos-delay="50" data-aos-duration="1500"/>
@@ -546,7 +259,7 @@
       <img src="images/client-logo-5.svg" alt="" data-aos="zoom-in" data-aos-delay="50" data-aos-duration="1500"/>
       <img src="images/client-logo-6.svg" alt="" data-aos="zoom-in" data-aos-delay="50" data-aos-duration="1500"/>
     </div>
-  </div>
+  </div> -->
   <!-- End Clients -->
 
   <!-- Start Register -->
@@ -559,7 +272,7 @@
     <div class="container">
       <img class="man" src="images/cta-man.png" alt="" />
       <div class="text">
-        <h3>Become a Real Estate Agent</h3>
+        <h3>Bale Bete where you find your House</h3>
         <span
           >We only work with the best companies around the globe to
           survey</span

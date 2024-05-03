@@ -39,8 +39,7 @@
                 <nav>
                     <input type="checkbox" id="bar" />
                     <ul class="links">
-                        <!-- <li><a class="active" href="../index.html">Home</a></li> -->
-                        <li><a href="about.html">About</a></li>
+                    
                         <li><a href="contact.html">Contact</a></li>
                         <!-- <li><a href="addProperty.html" style="">Add property</a></li> -->
                     </ul>
@@ -62,24 +61,27 @@
             <div class="container">
                <div class="right-data">
                     <div class="heading">
-                        <h3>Add property</h3>
+                        <h3>Update property</h3>
                         <p>Fill all credentials</p>
                     </div>
-                    <form id="addPropertyForm" method="post" enctype="multipart/form-data">
-                        <input class="main-input" name="location" id="location" type="text" placeholder="Location link" >
-                        <input class="main-input" name="price" id="price"  type="text" placeholder="Price">      
-                        <select class="main-input" name="house_street" id="house_street" aria-placeholder="House Street" >
+                    <form id="updatePropertyForm" method="post" enctype="multipart/form-data">
+                        
+                        <input class="main-input" name="location" id="location" type="text" placeholder="Location" value= "{{ house_data.location }}">
+                        <input class="main-input" name="price" id="price"  type="text" placeholder="Price" value="{{ house_data.house_price }}">      
+                        <select class="main-input" name="house_street" id="house_street" aria-placeholder="House Street">
                             <option value="Select house street">Select house street</option>
-                            <option value="Aweraris">Aweraris</option>
-                            <option value="Tele">Tele</option>
-                            <option value="Gibi">Gibi</option>
-                            <option value="Technical">Technical</option>
+                            <option value="Aweraris" {% if house_data.house_street == 'Aweraris'  %}selected{%endif%}>Aweraris</option>
+                            <option value="Tele" {% if house_data.house_street == 'Tele'  %}selected{%endif%}>Tele</option>
+                            <option value="Gibi" {% if house_data.house_street == 'Gibi'  %}selected{%endif%}>Gibi</option>
+                            <option value="Technical" {% if house_data.house_street == 'Technical'  %}selected{%endif%}>Technical</option>
                         </select>    
                         <!-- <input class="main-input" name="house_street" id="house_street" type="text" placeholder="Enter house Street"> -->
-                        <input class="main-input" name="area" id="area" type="number" placeholder="Area square" >
+                        <input class="main-input" name="area" id="area" type="number" placeholder="Area square" value="{{ house_data.area }}">
                         <select class="main-input" name="type_of_property" id="type_of_property">
-                            <option value="For Sale">For Sale</option>
-                            <option value="For Rent">For Rent</option>
+                            <option value="For Sale" {% if house_data.type_of_property == 'For Sale'  %}selected{%endif%}>For Sale</option>
+                            <option value="For Rent" {% if house_data.type_of_property == 'For Rent'  %}selected{%endif%}>For Rent</option>
+                            <option value="Rented" {% if house_data.type_of_property == 'Rented'  %}selected{%endif%}>Rented</option>
+                            <option value="Sold" {% if house_data.type_of_property == 'Sold'  %}selected{%endif%}>Sold</option>
                         </select>
                         <div>
                             <input type="radio" id="living" name="property_type" value="living" onclick="showLivingFields()">
@@ -95,8 +97,8 @@
                         
                         <!-- Additional fields for living -->
                         <div id="livingFields" style="display: none;">
-                            <input class="main-input" name="bed_number" id="bed_number" type="text" placeholder="Number of Beds">
-                            <input class="main-input" name="kitchen_number" id="kitchen_number" type="text" placeholder="Number of Kitchens">
+                            <input class="main-input" name="bed_number" id="bed_number" type="text" placeholder="Number of Beds" value="{{ house_data.bed_number}}" >
+                            <input class="main-input" name="kitchen_number" id="kitchen_number" type="text" placeholder="Number of Kitchens" value="{{ house_data.kitchen_number }}">
                             <select class="main-input" name="property_subtype" id="property_subtype">
                                 <option value="Apartment">Apartment</option>
                                 <option value="Villa">Villa</option>
@@ -105,20 +107,20 @@
                         
                         <!-- Additional fields for business -->
                         <div id="businessFields" style="display: none;">
-                            <input class="main-input" name="floor_number" id="floor_number" type="text" placeholder="Floor Number">
-                            <input class="main-input" name="building_name" id="building_name" type="text" placeholder="Building Name">
+                            <input class="main-input" name="floor_number" id="floor_number" type="text" placeholder="Floor Number" value="{{ house_data.floor_number }}">
+                            <input class="main-input" name="building_name" id="building_name" type="text" placeholder="Building Name" value="{{ house_data.building_name }}">
                         </div>
                         
                         <!-- Additional fields for office -->
                         <div id="officeFields" style="display: none;">
-                            <input class="main-input" name="floor_number" id="floor_number" type="text" placeholder="Floor Number">
-                            <input class="main-input" name="building_name" id="building_name" type="text" placeholder="Building Name">
+                            <input class="main-input" name="floor_number" id="floor_number" type="text" placeholder="Floor Number" value="{{ house_data.floor_number }}">
+                            <input class="main-input" name="building_name" id="building_name" type="text" placeholder="Building Name" value="{{ house_data.building_name }}">
                         </div>
                         
                         <input type="file" class="main-input" name="house_image" id="house_image"  accept="image/*" multiple>
-                        <textarea class="main-input" name="description" id="description" placeholder="Description"></textarea>
+                        <textarea class="main-input" name="description" id="description" placeholder="Description" >{{ house_data.description }}</textarea>
 
-                        <input type="submit" value="Add property">
+                        <input type="submit" value="Update property">
                     </form>
               </div>
            </div>
