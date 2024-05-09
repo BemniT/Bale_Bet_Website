@@ -97,8 +97,9 @@
                         <span><i class="fa-solid fa-shower"></i>Baths {{ house.baths }}</span>
                         <span><i class="fa-solid fa-expand"></i>{{ house.area }}sqft</span>
                     </div>
-                    
-                       <a href="updateProperty.html?house_id={{ house.id }}"> <input type="submit" value="Update" style=" background-color: #00c194;
+                    <form action="" method="post"></form>
+                    <input type="hidden" name="property_type" value="{{ property_type }}">
+                    <a href="updateProperty.html?house_id={{ house.id }}"> <input type="submit" name="myPending" value="Update" style=" background-color: #00c194;
                         color: white;
                         font-family: 'Ubuntu', sans-serif;
                         font-weight: 500;
@@ -108,7 +109,7 @@
                         margin-top: 20px;
                         position: relative;"></a>
                 
-                  
+                    </form>
                 </div>
             </div>
             {% endfor %}

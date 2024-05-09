@@ -155,7 +155,8 @@ def addProperty():
                     "bed_number": bed_number,
                     "kitchen_number":kitchen_number,
                     "property_subtype": property_subtype,
-                    "type_of_property": type_of_property
+                    "type_of_property": type_of_property,
+                    "status":""
                  }) 
             elif property_type == 'business' or property_type == 'office':
                  floor_number = request.form.get('floor_number')
@@ -176,7 +177,8 @@ def addProperty():
                         "house_id":house_id,
                         "floor_number":floor_number,
                         "building_name": building_name,
-                       "type_of_property": type_of_property
+                       "type_of_property": type_of_property,
+                       "status":""
                  })          
            
 
@@ -204,7 +206,25 @@ def addProperty():
     return render_template('addProperty.html')
 
 #============================================== end of add property ==================================================
-
+#============================================== Contact ==============================================================
+@app.route('/contact.html', methods=['GET','POST'])
+def contact():
+     user_phone = session.get('user_phone')
+     if user_phone is None:
+          redirect(url_for('login'))
+     else:
+            if request.method == 'POST':
+                user_name = request.form['name']
+                user_email = request.form['email']
+                user_comment = request.form['comment']
+                real_db.child('FeedBack').child(user_phone).set({
+                    'user_name':user_name,
+                    'user_email':user_email,
+                    'user_comment':user_comment,
+                    "user_phone":user_phone
+                })
+     return render_template ('contact.html')
+#============================================== end of contact ==================================
 # ============================================= fetching houses from the waiting node in the admin page =============================
 @app.route('/modals.html')
 def admin():
@@ -231,7 +251,14 @@ def approve_house():
         real_db.child('Waiting').child(house_id).remove()
         return redirect(url_for('admin'))
 
-
+@app.route('/unapprove-house', methods=['GET','POST'])
+def unapprove_house():
+     if request.method == 'POST':
+        house_id =  request.form['house_id']
+        real_db.child('Waiting').child(house_id).update({
+             'status':"Unapproved please contact us directly"
+        })
+        return redirect(url_for('admin'))
 
 #============================================== Admin login start ====================================================
 
@@ -286,6 +313,7 @@ def allProperties():
 def myProperty():
      
      user_phone = session.get('user_phone')
+     property_type="House"
      myHouse = []
      if user_phone is None:
           return redirect(url_for('login'))
@@ -308,7 +336,7 @@ def myProperty():
                     })
       
    
-     return render_template('myProperty.html', myHouse=myHouse)
+     return render_template('myProperty.html', myHouse=myHouse, property_type=property_type)
 
 
 # ==================================== My pendign house ==================================================
@@ -316,6 +344,7 @@ def myProperty():
 def myPending():
      
      user_phone = session.get('user_phone')
+     property_type = 'Waiting'
      myPending = []
      if user_phone is None:
           return redirect(url_for('login'))
@@ -333,34 +362,39 @@ def myPending():
                         'location': house_data.get('house_street', ''),
                         'beds': house_data.get('bed_number', ''),
                         'baths': house_data.get('toilet_number', ''),
+                        'status': house_data.get('status', ''),
                         'area': house_data.get('square_area', ''),
                         'image_urls': image_urls
                     })
       
    
-     return render_template('myPending.html', myPending=myPending)
+     return render_template('myPending.html', myPending=myPending, property_type=property_type)
  
           
 # ===================================== Update property ===================================================
 @app.route('/update-house', methods=['GET','POST'])
 def update_house():
      if request.method == 'POST':
+        house_data =''
+        type = request.form('myProperty')
+       
         house_id =  request.form['house_id']
-        house_data = real_db.child('House').child(house_id).get().val()
+        
         return render_template('updateProperty.html', house_data = house_data)
 
 
 @app.route("/updateProperty.html", methods=['GET', 'POST'])
 def updateProperty():
     house_id = request.args.get('house_id')
+    type = request.form.get('property_type')
     house_id = house_id.split('=')[-1]
-    print(house_id)
-    house_data = real_db.child('House').child(house_id).get().val()
+    print(type)
+    if type is None:
+        house_data = real_db.child('House').child(house_id).get().val()
+    else:
+        house_data = real_db.child('Waiting').child(house_id).get().val()
+    
     if request.method == 'POST':
-       
-       
-
-
         if house_id:
             location = request.form['location']
             price = request.form['price']
@@ -456,11 +490,13 @@ def DashBoard():
      users_snapshot = ref.child('Users').get()  
      houses_snapshot = ref.child('House').get()  
      pending_houses_snapshot = ref.child('Waiting').get()
+     feedback = ref.child('FeedBack').get()
 
 
      user_num  = len(users_snapshot.keys()) if users_snapshot else 0
      house_num = len(houses_snapshot.keys()) if houses_snapshot else 0
      waiting  = len(pending_houses_snapshot.keys()) if pending_houses_snapshot else 0
+     feedback_num = len(feedback.keys()) if feedback else 0
 
      if request.method == 'POST':
           phone_number = request.form.get("phone_number",'')
@@ -480,7 +516,7 @@ def DashBoard():
                         "user_phone": user_phone,
                         "user_address": user_address
                     })
-          return render_template('DashBoard.html', users = userList, user_num = user_num, house_num = house_num, waiting = waiting)
+          return render_template('DashBoard.html', users = userList, user_num = user_num, house_num = house_num, waiting = waiting, feedback_num = feedback_num)
 
 
      users = real_db.child('Users').get().val()
@@ -500,12 +536,41 @@ def DashBoard():
                "user_address": user_address
           })
 
-     return render_template('DashBoard.html', user_num = user_num, house_num = house_num, waiting = waiting, users= user_list)
+     return render_template('DashBoard.html', user_num = user_num, house_num = house_num, waiting = waiting, users= user_list, feedback_num = feedback_num)
 
 
-@app.route('/houses.html')
-def houses():
-     return render_template('houses.html')
+@app.route('/feedback.html')
+def feedback():
+     feedback = real_db.child('FeedBack').get().val()
+     feedbackList = []
+     
+     if feedback:
+        for  feedBack,feed_info in feedback.items():
+                        user_name = feed_info.get("user_name","")
+                        user_email = feed_info.get("user_email","")
+                        user_comment = feed_info.get("user_comment","")
+                        user_phone = feed_info.get("user_phone","")
+
+                        
+
+                        feedbackList.append({
+
+                            "user_email" : user_email,
+                            "user_name": user_name,
+                            "user_comment":user_comment,
+                            "user_phone":user_phone
+                        
+                        })
+
+        
+     return render_template('feedback.html', feed = feedbackList)
+@app.route('/delete-feedback', methods=['POST'])
+def delete_feedback():
+    if request.method == 'POST':
+        user_phone =  request.form['user_phone']
+    
+        real_db.child('FeedBack').child(user_phone).remove()
+        return redirect(url_for('feedback'))
 
 if __name__== '__main__':
     app.run(debug=True)

@@ -1838,7 +1838,7 @@ a {
 }
 
 .footer p {
-  color: #c8d3de;
+  color:  #484f56;
   font-size: 15px;
   line-height: 1.8;
 }
@@ -1888,7 +1888,7 @@ a {
   font-weight: 500;
   font-size: 22px;
   margin: 0 0 40px;
-  color: white;
+  color:  #484f56;
   position: relative;
 }
 
@@ -1915,7 +1915,7 @@ a {
   position: absolute;
   top: 15px;
   left: -18px;
-  color: #c8d3de;
+  color: #484f56;
   font-size: 6px;
   transition: var(--main-transition);
 }
@@ -1926,7 +1926,7 @@ a {
 }
 
 .footer .links li a {
-  color: #c8d3de;
+  color:  #484f56;
   font-size: 15px;
   transition: var(--main-transition);
 }
@@ -1965,7 +1965,7 @@ a {
 
 .footer .title {
   display: block;
-  color: #c8d3de;
+  color:  #484f56;
 }
 
 .footer .details {
@@ -1975,12 +1975,12 @@ a {
 
 .footer .details i {
   margin-right: 10px;
-  color: #c8d3de;
+  color:  #484f56;
   font-size: 20px;
 }
 
 .footer .details span {
-  color: #c8d3de;
+  color:  #484f56;
   font-size: 15px;
 }
 
